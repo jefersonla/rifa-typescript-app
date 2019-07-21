@@ -47,3 +47,7 @@ html, body {
 .botao-card {
   width: 100%;
 }
+
+.header-oculto {
+  display: none !important;
+}
