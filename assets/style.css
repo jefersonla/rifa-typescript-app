@@ -22,3 +22,28 @@ time, mark, audio, video {
 html, body {
   background-color: #fff !important;
 }
+
+.card-gerar {
+  margin: 10px 20px 20px;
+}
+
+.footer-pagina {
+  padding-bottom: 0 !important;
+}
+
+.made-with-love {
+  padding: 5px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+}
+
+.made-with-love a,
+.made-with-love a:hover,
+.made-with-love a:active, .made-with-love span {
+  color: #e25555;
+}
+
+.botao-card {
+  width: 100%;
+}

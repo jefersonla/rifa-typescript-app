@@ -8,8 +8,7 @@
   <title> Criador de Rifas - by @jefersonla </title>
 </head>
 <body>
-
-  <div class="slds-grid slds-wrap">
+<div class="slds-grid slds-wrap">
     
     <nav class="slds-col slds-size_1-of-1">
       <div class="slds-page-header">
@@ -368,39 +367,55 @@
 
     </aside>
 
+  <!-- Rodapé -->
+  <div class="slds-docked-form-footer footer-pagina">
     <nav class="slds-col slds-size_1-of-1">
 
-      <article class="slds-card">
-        <div class="slds-card__header slds-grid">
+      <!-- CardGerador -->
+      <article class="slds-card card-gerar">
+        
+        <div class="slds-grid slds-einstein-header slds-card__header">
           <header class="slds-media slds-media_center slds-has-flexi-truncate">
-            <div class="slds-media__figure">
-              <span class="slds-icon_container slds-icon-standard-account" title="account">
-                <svg class="slds-icon slds-icon_small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
-                </svg>
-                <span class="slds-assistive-text">account</span>
-              </span>
+            <div class="slds-grid slds-grid_vertical-align-center slds-size_3-of-4 slds-medium-size_2-of-3">
+              <div class="slds-media__body">
+                <h2 class="slds-truncate" title="Gerar Rifa!">
+                  <span class="slds-text-heading_small">
+                    Para gerar sua rifa clique no botão abaixo
+                    <!-- Aguarde enquanto sua rifa é gerada! -->
+                  </span>
+                </h2>
+              </div>
             </div>
-            <div class="slds-media__body">
-              <h2 class="slds-card__header-title">
-                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
-                  <span>Accounts</span>
-                </a>
-              </h2>
-            </div>
+            <div class="slds-einstein-header__figure slds-size_1-of-4 slds-medium-size_1-of-3"></div>
           </header>
         </div>
-        <div class="slds-card__body slds-card__body_inner">Card Body</div>
+
+        <div class="slds-card__body slds-card__body_inner">
+          <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" role="progressbar">
+            <span class="slds-progress-bar__value" style="width:25%">
+              <span class="slds-assistive-text">Progresso: 25%</span>
+            </span>
+          </div>
+        </div>
+        
         <footer class="slds-card__footer">
-          <a class="slds-card__footer-action" href="javascript:void(0);">View All
-            <span class="slds-assistive-text">Accounts</span>
+          <svg class="slds-button__icon slds-button__icon_small slds-button__icon_left" aria-hidden="true">
+            <use xlink:href="/assets/"></use>
+          </svg>
+          <a class="slds-button slds-button_brand botao-card" id="gerar-rifa" href="javascript:void(0);">
+            Clique aqui para gerar sua Rifa!
           </a>
         </footer>
-      </article>
-      
-    </nav>
 
+      </article>
+      <!-- ./CardGerador -->
+
+      <div class="slds-col slds-size_1-of-1 made-with-love">
+          Feito com amor <span>&hearts;</span> por <a href="https://github.com/jefersonla">@jefersonla</a>
+      </div>
+    </nav>
   </div>
 
+</div>
 </body>
 </html>
