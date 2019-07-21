@@ -71,3 +71,13 @@ html, body {
 #barra-progresso {
   transition: width 0.25s ease-in-out !important;
 }
+
+.logo-pagina {
+  width: 60px !important;
+  height: 50px !important;
+  padding: 2px !important;
+}
+
+.header-pagina {
+  padding: 5px 0 !important;
+}

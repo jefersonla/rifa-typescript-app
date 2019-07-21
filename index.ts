@@ -19,6 +19,8 @@ const TEXTO_INICIO_PROGRESSO = `${PREFIXO_TEXTO_PROGRESSO}: 0%`;
 const TEXTO_FIM_PROGRESSO = `${PREFIXO_TEXTO_PROGRESSO}: 100%`;
 const TEXTO_BOTAO_ESPERA = 'Aguarde...';
 const TEXTO_BOTAO_DEFAULT = 'Clique aqui para gerar sua rifa!';
+const CLASS_PROGRESSO_OCULTO = 'progresso-oculto';
+const CLASS_IMG_OCULTO = 'img-oculto';
 
 /**
  * ----------  Dom Footer ---------- 
@@ -48,8 +50,8 @@ const iniciarBarraProgesso = () => {
   headerCardGerarRifa.innerText = TEXTO_AGUARDE_GERAR;
   textoProgresso.innerText = TEXTO_INICIO_PROGRESSO;
   barraProgresso.style.width = '0%';
-  containerProgresso.classList.remove('progresso-oculto');
-  iconeLoading.classList.remove('img-oculto');
+  containerProgresso.classList.remove(CLASS_PROGRESSO_OCULTO);
+  iconeLoading.classList.remove(CLASS_IMG_OCULTO);
 };
 
 /**
@@ -59,8 +61,8 @@ const finalizaBarraProgresso = () => {
   headerCardGerarRifa.innerText = TEXTO_GERAR_RIFA;
   textoProgresso.innerText = TEXTO_FIM_PROGRESSO;
   barraProgresso.style.width = '100%';
-  containerProgresso.classList.add('progresso-oculto');
-  iconeLoading.classList.add('img-oculto');
+  containerProgresso.classList.add(CLASS_PROGRESSO_OCULTO);
+  iconeLoading.classList.add(CLASS_IMG_OCULTO);
 };
 
 /**
@@ -103,8 +105,9 @@ botaoGerarRifa.onclick = () => {
   iniciarBarraProgesso();
   desabilitarBotaoGerarRifa();
 
-  interval(500).pipe(take(10)).subscribe((i) => {
-    console.log(i);
+  interval(500).pipe(
+    take(10)
+  ).subscribe((i) => {
     barraProgresso.style.width = ((i + 1) * 10) + '%';
   }, err => {
     console.error('[ERROR] {BotaoGerarRifa} - Erro:', err)
