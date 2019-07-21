@@ -4,48 +4,71 @@
   <meta charset="utf-8" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Jeferson Lima">
+  <meta name="description" content="Gere Rifas em PDF de froma fácil e prática!">
+  <meta name="keywords" content="rifa, gerar rifa, app, pdf, rifa to pdf, rifa2pdf, svg to pdf, svg2pdf">
 
-  <title> Criador de Rifas - by @jefersonla </title>
+  <title> Gerador de Rifas em PDF - by @jefersonla </title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 </head>
 <body>
 <div class="slds-grid slds-wrap">
-    
+  
+  <!-- HeaderPagina -->
   <nav class="slds-col slds-size_1-of-1">
     <div class="slds-page-header">
       <div class="slds-page-header__row">
         <div class="slds-page-header__col-title">
           <div class="slds-media">
+
+            <!-- LogoPagina -->
             <div class="slds-media__figure">
               <span class="slds-icon_container slds-icon-standard-opportunity" title="opportunity">
-                <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
-                </svg>
+                <img src="https://image.flaticon.com/icons/svg/1554/1554028.svg" class="slds-icon slds-page-header__icon" aria-hidden="true">
                 <span class="slds-assistive-text">opportunity</span>
               </span>
             </div>
+            <!-- ./LogoPagina -->
+
+            <!-- HeaderBodyPagina -->
             <div class="slds-media__body">
+
+              <!-- TituloPagina -->
               <div class="slds-page-header__name">
                 <div class="slds-page-header__name-title">
                   <h1>
-                    <span class="slds-page-header__title slds-truncate" title="Rohde Corp - 80,000 Widgets">Rohde Corp - 80,000 Widgets</span>
+                    <span class="slds-page-header__title slds-truncate" title="Rohde Corp - 80,000 Widgets">
+                      Gerador de Rifas em PDF
+                    </span>
                   </h1>
                 </div>
               </div>
-              <p class="slds-page-header__name-meta">Mark Jaeckal • Unlimited Customer • 11/13/15</p>
+              <!-- ./TituloPagina -->
+
+              <!-- DescricaoPagina -->
+              <p class="slds-page-header__name-meta">
+                Gere sua rifa em PDF fácil e rápido. Cada página da rifa possuirá 5 cartelas. Tamanho da página A4.
+              </p>
+              <!-- ./DescricaoPagina -->
+
             </div>
+            <!-- ./HeaderBodyPagina -->
+
           </div>
         </div>
       </div>
     </div>
   </nav>
+  <!-- ./HeaderPagina -->
 
+  <!-- PrevisualizacaoCartela -->
   <main class="slds-col slds-size_1-of-1">
     <div id="app"></div>
   </main>
+  <!-- ./PrevisualizacaoCartela -->
 
-  <nav class="slds-col slds-size_1-of-1">
+  <!-- <nav class="slds-col slds-size_1-of-1">
     
     <div class="slds-tabs_default">
       <ul class="slds-tabs_default__nav" role="tablist">
@@ -367,7 +390,7 @@
       <div id="tab-default-3" class="slds-tabs_default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-3__item">Item Three Content</div>
     </div>
 
-  </nav>
+  </nav> -->
 
   <!-- Rodape -->
   <div class="slds-docked-form-footer footer-pagina">
@@ -386,7 +409,7 @@
                 <h2 class="slds-truncate" title="Gerar Rifa!">
                   
                   <!-- LoadingImage -->
-                  <img class="img-oculto" id="icone-loading"  src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/loading.gif"/>
+                  <img class="img-oculto" id="icone-loading"  src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/loading.svg"/>
                   <!-- ./LoadingImage -->
 
                   <!-- ContainerMensagem -->
@@ -438,6 +461,40 @@
     </nav>
   </div>
   <!-- ./Rodape -->
+
+  <!-- ModalRifaGerada -->
+  <div id="container-modal" style="display: none;">
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open animated bounceIn">
+      <div class="slds-modal__container">
+        
+        <!-- HeaderModal -->
+        <header class="slds-modal__header">
+          <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+            Uhuuu, agora é só baixar ;)
+          </h2>
+        </header>
+        <!-- ./HeaderModal -->
+
+        <!-- BodyModal -->
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <a id="botao-baixar-rifa" style="text-align: center; display: block;">
+            <img src="https://image.flaticon.com/icons/svg/337/337946.svg" style="width:20%;">
+            <legend> Clique para baixar sua rifa! </legend>
+          </a>
+        </div>
+        <!-- BodyModal -->
+
+        <!-- FooterModal -->
+        <footer class="slds-modal__footer">
+          <button class="slds-button slds-button_neutral" id="botao-fechar-modal">Fechar</button>
+        </footer>
+        <!-- ./FooterModal -->
+
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </div>
+  <!-- ./ModalRifaGerada -->
 
 </div>
 </body>

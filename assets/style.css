@@ -64,5 +64,10 @@ html, body {
 }
 
 #icone-loading {
-  margin-bottom: 5px;
+    margin-bottom: 6px;
+    height: 38px;
+}
+
+#barra-progresso {
+  transition: width 0.25s ease-in-out !important;
 }
