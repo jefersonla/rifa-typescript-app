@@ -48,6 +48,17 @@ html, body {
   width: 100%;
 }
 
-.header-oculto {
+.header-oculto, .img-oculto {
   display: none !important;
+}
+
+#container-progresso {
+  transition: margin 0.5s ease-in-out, max-height 0.5s ease-in-out, opacity 0.5s ease-in-out !important;
+}
+
+.progresso-oculto {
+  transition: margin 0.5s ease-in-out, max-height 0.5s ease-in-out, opacity 0.5s ease-in-out !important;
+  max-height: 0 !important;
+  opacity: 0 !important;
+  margin: 0 !important;
 }
