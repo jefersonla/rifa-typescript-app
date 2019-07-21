@@ -19,10 +19,6 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 
-h1, h2 {
-  font-family: Lato;
-}
-
-body {
-  background-color: #fff;
+html, body {
+  background-color: #fff !important;
 }
