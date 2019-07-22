@@ -1,7 +1,9 @@
 import {interval} from 'rxjs';
 import {take} from 'rxjs/operators';
-import * as PDFDocument from 'pdfkit';
+import * as PdfPrinter from 'pdfmake';
+// import {PDFDocument} from 'pdfkit';
 
+declare const PDFDocument: any;
 
 // Import stylesheets
 import './assets/style.css';
@@ -257,8 +259,11 @@ botaoGerarRifa.onclick = () => {
   desabilitarBotaoGerarRifa();
   desabilitarTodosInputs();
 
-  const documento = new PDFDocument();
+console.log('PDF', PdfPrinter);
+window.doc = PdfPrinter;
+  const documento = PdfPrinter.createPdf();
   documento.addPage();
+  console.log(documento);
 
   interval(500).pipe(
     take(10)

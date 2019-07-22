@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "lodash": "4.17.15",
-    "pdfkit": "0.10.0",
+    "pdfmake": "0.1.57",
     "rxjs": "6.5.2",
-    "brfs": "2.0.2"
+    "brfs": "2.0.2",
+    "zlib": "1.0.5",
+    "blob-stream": "0.1.3"
   }
 }
