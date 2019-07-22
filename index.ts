@@ -23,6 +23,22 @@ const CLASS_PROGRESSO_OCULTO = 'progresso-oculto';
 const CLASS_IMG_OCULTO = 'img-oculto';
 
 /**
+ * Variaveis template rifa
+ */
+const variaveisTemplate = {
+  var_num1: document.querySelector<SVGTextElement>('#var_num1'),
+  var_num2: document.querySelector<SVGTextElement>('#var_num2'),
+  var_header_linha1: document.querySelector<SVGTextElement>('#var_header_linha1'),
+  var_header_linha2: document.querySelector<SVGTextElement>('#var_header_linha2'),
+  var_premio_linha1: document.querySelector<SVGTextElement>('#var_premio_linha1'),
+  var_premio_linha2: document.querySelector<SVGTextElement>('#var_premio_linha2'),
+  var_data_realizacao: document.querySelector<SVGTextElement>('#var_data_realizacao'),
+  var_local_realizacao: document.querySelector<SVGTextElement>('#var_local_realizacao'),
+  var_observacoes: document.querySelector<SVGTextElement>('#var_observacoes')
+};
+window['variaves'] = variaveisTemplate;
+
+/**
  * ----------  Dom Footer ---------- 
  */
 const iconeLoading = document.querySelector<HTMLImageElement>('#icone-loading');

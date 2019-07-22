@@ -81,3 +81,12 @@ html, body {
 .header-pagina {
   padding: 15px 0 !important;
 }
+
+.rifa-template-image {
+  padding: 10px;
+  width: 100%;
+}
+
+.configuracao-area {
+  padding: 10px 20px !important;
+}
