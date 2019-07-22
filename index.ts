@@ -259,8 +259,8 @@ botaoGerarRifa.onclick = () => {
   desabilitarBotaoGerarRifa();
   desabilitarTodosInputs();
 
-console.log('PDF', PdfPrinter);
-window.doc = PdfPrinter;
+  console.log('PDF', PdfPrinter);
+  window.doc = PdfPrinter;
   const documento = PdfPrinter.createPdf();
   documento.addPage();
   console.log(documento);
