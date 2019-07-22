@@ -60,7 +60,7 @@
 
               <!-- DescricaoPagina -->
               <p class="slds-page-header__name-meta">
-                Gere sua rifa em PDF fácil e rápido. Cada página da rifa possuirá 5 cartelas. Tamanho da página A4.
+                Gere sua rifa em PDF fácil e rápido. Cada página da rifa possuirá max. 5 cartelas. Tamanho da página A4.
               </p>
               <!-- ./DescricaoPagina -->
 
@@ -75,7 +75,7 @@
   <!-- ./HeaderPagina -->
 
   <!-- PrevisualizacaoCartela -->
-  <main class="slds-col slds-size_1-of-1">
+  <main class="slds-col slds-size_1-of-1" style="text-align:center;">
     
     <!-- TemplateRifa -->
     <svg class="rifa-template-image" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" version="1.1">
@@ -160,7 +160,7 @@
       <!-- ./NumeroEsquerda -->
 
       <!-- TituloRifa -->
-      <text x="23.692162" y="6.8182006" class="titulo" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8px;line-height:normal;font-family:sans-serif;stroke-width:0.95641512" transform="scale(0.9869257,1.0132475)">
+      <text x="23.692162" y="6.8182006" class="titulo" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6px;line-height:normal;font-family:sans-serif;stroke-width:0.95641512" transform="scale(0.9869257,1.0132475)">
         Rifa
       </text>
       <!-- ./TituloRifa -->
@@ -237,16 +237,22 @@
 
   <!-- ConfiguraçãoRifa -->
   <nav class="slds-col slds-size_1-of-1">
-
     <article class="slds-card configuracao-area">
+
+      <!-- HeaderConfiguracao -->
       <div class="slds-card__header slds-grid">
         <header class="slds-media slds-media_center slds-has-flexi-truncate">
+          
+          <!-- IconeHeader -->
           <div class="slds-media__figure">
             <span class="slds-icon_container slds-icon-standard-task" title="account" style="padding: 2px;">
               <img class="slds-icon slds-icon_small" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/settings.svg">
               <span class="slds-assistive-text">account</span>
             </span>
           </div>
+          <!-- ./IconeHeader -->
+
+          <!-- TituloHeader -->
           <div class="slds-media__body">
             <h2 class="slds-card__header-title">
               <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Accounts">
@@ -254,94 +260,136 @@
               </a>
             </h2>
           </div>
+          <!-- ./TituloHeader -->
+
         </header>
       </div>
-      <div class="slds-card__body slds-card__body_inner">
-        <div class="slds-form-element slds-text-align_center configuracao-area">
-          <label class="slds-form-element__label slds-m-right_none" for="text-input-id-1">Quantidade de fichas - <b> Total de páginas: <span id="">1</span></b></label>
+      <!-- ./HeaderConfiguracao -->
+
+      <!-- BodyConfiguracao -->
+      <div class="slds-card__body slds-card__body_inner slds-scrollable area-scroll">
+
+        <!-- FormQuantidadeFichas -->
+        <div class="slds-form-element slds-text-align_center" style="margin-bottom: 15px;">
+
+          <!-- LabelQuantidadeFichas -->
+          <label class="slds-form-element__label slds-m-right_none" for="input-quantidade-fichas">
+            Quantidade de fichas - <b> Total de páginas: <span id="total-paginas-geradas">1</span></b>
+          </label>
+          <!-- ./LabelQuantidadeFichas -->
+
+          <!-- ContainerQuantidadeFichas -->
           <div class="slds-form-element__control">
-            <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement" title="Decrement counter">
+
+            <!-- DecrementarFichasBotao -->
+            <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement" id="botao-decrementar-fichas" title="Decrementar contador">
               <img class="slds-button__icon" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/ban.svg">
               <span class="slds-assistive-text">
-                Decrementar numero de itens
+                Decrementar numero de fichas
               </span>
             </button>
-            <input type="number" class="slds-input slds-input_counter" id="text-input-id-1" placeholder="1" />
-            <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment" title="Increment counter">
+            <!-- ./DecrementarFichasBotao -->
+
+            <!-- InputQuantidadeFichas -->
+            <input type="number" min="1" max="999" class="slds-input slds-input_counter" id="input-quantidade-fichas" value="1" placeholder="Quantidade de fichas" />
+            <!-- ./InputQuantidadeFichas -->
+
+            <!-- IncrementarFichasBotao -->
+            <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment" id="botao-incrementar-fichas" title="Incrementar contador">
               <img class="slds-button__icon" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/new.svg">
               <span class="slds-assistive-text">
-                Incrementar numero de itens
+                Incrementar numero de fichas
               </span>
             </button>
+            <!-- ./IncrementarFichasBotao -->
+
+          </div>
+          <!-- ./ContainerQuantidadeFichas -->
+
         </div>
+        <!-- ./FormQuantidadeFichas -->
+
+        <!-- FormCabeçalhoLinha1 -->
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="input_var_header_linha1"> 
+            Cabeçalho Linha 1
+          </label>
+          <div class="slds-form-element__control">
+            <input type="text" id="input_var_header_linha1" placeholder="Cabeçalho Linha 1" class="slds-input" />
+          </div>
+        </div>
+        <!-- ./FormCabeçalhoLinha1 -->
+
+        <!-- FormCabeçalhoLinha2 -->
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="input_var_header_linha2"> 
+            Cabeçalho Linha 2
+          </label>
+          <div class="slds-form-element__control">
+            <input type="text" id="input_var_header_linha2" placeholder="Cabeçalho Linha 2" class="slds-input" />
+          </div>
+        </div>
+        <!-- ./FormCabeçalhoLinha2 -->
+
+        <!-- FormPremioLinha1 -->
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="input_var_premio_linha1"> 
+            Prêmio Linha 1
+          </label>
+          <div class="slds-form-element__control">
+            <input type="text" id="input_var_premio_linha1" placeholder="Prêmio Linha 1" class="slds-input" />
+          </div>
+        </div>
+        <!-- ./FormPremioLinha1 -->
+
+        <!-- FormPremioLinha2 -->
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="input_var_premio_linha2"> 
+            Prêmio Linha 2
+          </label>
+          <div class="slds-form-element__control">
+            <input type="text" id="input_var_premio_linha2" placeholder="Prêmio Linha 2" class="slds-input" />
+          </div>
+        </div>
+        <!-- ./FormPremioLinha2 -->
+
+        <!-- FormDataRealizacao -->
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="input_var_data_realizacao"> 
+            Data Realização
+          </label>
+          <div class="slds-form-element__control">
+            <input type="text" id="input_var_data_realizacao" placeholder="Data Realização" class="slds-input" />
+          </div>
+        </div>
+        <!-- ./FormDataRealizacao -->
+
+        <!-- FormLocalRealizacao -->
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="input_var_local_realizacao"> 
+            Local Realização
+          </label>
+          <div class="slds-form-element__control">
+            <input type="text" id="input_var_local_realizacao" placeholder="Local Realização" class="slds-input" />
+          </div>
+        </div>
+        <!-- ./FormLocalRealizacao -->
+
+        <!-- FormObservacoes -->
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="input_var_observacoes"> 
+            Observações Gerais
+          </label>
+          <div class="slds-form-element__control">
+            <input type="text" id="input_var_observacoes" placeholder="Observações Gerais" class="slds-input" />
+          </div>
+        </div>
+        <!-- ./FormObservacoes -->
+
       </div>
+      <!-- ./BodyConfiguracao -->
 
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="text-input-id-1">Input 
-            Label
-          </label>
-          <div class="slds-form-element__control">
-            <input type="text" id="text-input-id-1" placeholder="Placeholder Text" class="slds-input" />
-          </div>
-        </div>
-
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="text-input-id-1">Input 
-            Label
-          </label>
-          <div class="slds-form-element__control">
-            <input type="text" id="text-input-id-1" placeholder="Placeholder Text" class="slds-input" />
-          </div>
-        </div>
-
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="text-input-id-1">Input 
-            Label
-          </label>
-          <div class="slds-form-element__control">
-            <input type="text" id="text-input-id-1" placeholder="Placeholder Text" class="slds-input" />
-          </div>
-        </div>
-
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="text-input-id-1">Input 
-            Label
-          </label>
-          <div class="slds-form-element__control">
-            <input type="text" id="text-input-id-1" placeholder="Placeholder Text" class="slds-input" />
-          </div>
-        </div>
-
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="text-input-id-1">Input 
-            Label
-          </label>
-          <div class="slds-form-element__control">
-            <input type="text" id="text-input-id-1" placeholder="Placeholder Text" class="slds-input" />
-          </div>
-        </div>
-
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="text-input-id-1">Input 
-            Label
-          </label>
-          <div class="slds-form-element__control">
-            <input type="text" id="text-input-id-1" placeholder="Placeholder Text" class="slds-input" />
-          </div>
-        </div>
-
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="text-input-id-1">Input 
-            Label
-          </label>
-          <div class="slds-form-element__control">
-            <input type="text" id="text-input-id-1" placeholder="Placeholder Text" class="slds-input" />
-          </div>
-        </div>
-
-      </div>
     </article>
-
   </nav>
   <!-- ./ConfiguraçãoRifa -->
 

@@ -21,6 +21,13 @@ const TEXTO_BOTAO_ESPERA = 'Aguarde...';
 const TEXTO_BOTAO_DEFAULT = 'Clique aqui para gerar sua rifa!';
 const CLASS_PROGRESSO_OCULTO = 'progresso-oculto';
 const CLASS_IMG_OCULTO = 'img-oculto';
+const TEXT_VAR_HEADER_LINHA1 = '%TEXT_VAR_HEADER_LINHA1%';
+const TEXT_VAR_HEADER_LINHA2 = '%TEXT_VAR_HEADER_LINHA2%';
+const TEXT_VAR_PREMIO_LINHA1 = '%TEXT_VAR_PREMIO_LINHA1%';
+const TEXT_VAR_PREMIO_LINHA2 = '%TEXT_VAR_PREMIO_LINHA2%';
+const TEXT_VAR_DATA_REALIZACAO = '%TEXT_VAR_DATA_REALIZACAO%';
+const TEXT_VAR_LOCAL_REALIZACAO = '%TEXT_VAR_LOCAL_REALIZACAO%';
+const TEXT_VAR_OBSERVACOES = '%TEXT_VAR_OBSERVACOES%';
 
 /**
  * Variaveis template rifa
@@ -36,11 +43,25 @@ const variaveisTemplate = {
   var_local_realizacao: document.querySelector<SVGTextElement>('#var_local_realizacao'),
   var_observacoes: document.querySelector<SVGTextElement>('#var_observacoes')
 };
-window['variaves'] = variaveisTemplate;
 
 /**
  * ----------  Dom Footer ---------- 
  */
+const inputQuantidadeFichas = document.querySelector<HTMLInputElement>('#input-quantidade-fichas');
+
+const botaoIncrementarFichas = document.querySelector<HTMLInputElement>('#botao-incrementar-fichas');
+const botaoDecrementarFichas = document.querySelector<HTMLInputElement>('#botao-decrementar-fichas');
+
+const inputsTemplate = {
+  inputHeaderLinha1: document.querySelector<HTMLInputElement>('#input_var_header_linha1'),
+  inputHeaderLinha2: document.querySelector<HTMLInputElement>('#input_var_header_linha2'),
+  inputPremioLinha1: document.querySelector<HTMLInputElement>('#input_var_premio_linha1'),
+  inputPremioLinha2: document.querySelector<HTMLInputElement>('#input_var_premio_linha2'),
+  inputDataRealizacao: document.querySelector<HTMLInputElement>('#input_var_data_realizacao'),
+  inputLocalRealizacao: document.querySelector<HTMLInputElement>('#input_var_local_realizacao'),
+  inputObservacoes: document.querySelector<HTMLInputElement>('#input_var_observacoes')
+};
+
 const iconeLoading = document.querySelector<HTMLImageElement>('#icone-loading');
 
 const botaoBaixarRifa = document.querySelector<HTMLAnchorElement>('#botao-baixar-rifa');
@@ -51,9 +72,10 @@ const botaoFecharModal = document.querySelector<HTMLButtonElement>('#botao-fecha
 const containerModal = document.querySelector<HTMLDivElement>('#container-modal');
 const containerProgresso = document.querySelector<HTMLDivElement>('#container-progresso');
 
-const textoProgresso = document.querySelector<HTMLSpanElement>('#progresso-text-acessibilidade');
 const barraProgresso = document.querySelector<HTMLSpanElement>('#barra-progresso');
+const textoProgresso = document.querySelector<HTMLSpanElement>('#progresso-text-acessibilidade');
 const headerCardGerarRifa = document.querySelector<HTMLSpanElement>('#header-card-gerar-rifa');
+const textoTotalPaginasFichas = document.querySelector<HTMLSpanElement>('#total-paginas-geradas');
 
 /**
  * ------------ Eventos ------------ 
@@ -110,6 +132,68 @@ const abrirModalRifaGerada = () => {
 const fecharModalRifaGerada = () => {
   containerModal.style.display = 'none';
 };
+
+/**
+ * Incrementa o número de fichas
+ */
+const incrementarNumFichas = () => {
+  const valorPrevio = parseInt(inputQuantidadeFichas.value, 10);
+  inputQuantidadeFichas.value = valorPrevio < 999 ? (valorPrevio + 1) + '' : '999';
+
+  atualizarQuantidadePaginas();
+};
+
+/**
+ * Decrementa o numero de fichas
+ */
+const decrementarNumFichas = () => {
+  const valorPrevio = parseInt(inputQuantidadeFichas.value, 10);
+  inputQuantidadeFichas.value = valorPrevio > 1 ? (valorPrevio - 1) + '' : '1';
+
+  atualizarQuantidadePaginas();
+};
+
+/**
+ * Valida o input de quantidade de fichas
+ */
+const validarInputQuantidadeFicha = () => {
+  if (inputQuantidadeFichas.value === '') {
+    return;
+  }
+
+  const valor = parseInt(inputQuantidadeFichas.value, 10);
+  
+  if(valor < 1) {
+    inputQuantidadeFichas.value = '1';  
+  } else if (valor > 999) {
+    inputQuantidadeFichas.value = '999';
+  } else {
+    inputQuantidadeFichas.value = valor + '';
+  }
+
+  atualizarQuantidadePaginas();
+};
+
+/**
+ * Atualizar quantidade de páginas
+ */
+const atualizarQuantidadePaginas = () => {
+  const valor = parseInt(inputQuantidadeFichas.value, 10);
+  textoTotalPaginasFichas.innerText = Math.ceil(valor / 5) + '';
+};
+
+// Ativação do evento
+inputQuantidadeFichas.onkeyup = () => {
+  validarInputQuantidadeFicha();
+
+  if(inputQuantidadeFichas.value !== '') {
+    atualizarQuantidadePaginas();
+  }
+};
+
+// Botao incrementar e decrementar
+botaoIncrementarFichas.onclick = incrementarNumFichas;
+botaoDecrementarFichas.onclick = decrementarNumFichas;
 
 // Fechar modal rifa
 botaoFecharModal.onclick = fecharModalRifaGerada;
