@@ -1,5 +1,7 @@
 import {interval} from 'rxjs';
 import {take} from 'rxjs/operators';
+import * as PDFDocument from 'pdfkit';
+
 
 // Import stylesheets
 import './assets/style.css';
@@ -21,13 +23,16 @@ const TEXTO_BOTAO_ESPERA = 'Aguarde...';
 const TEXTO_BOTAO_DEFAULT = 'Clique aqui para gerar sua rifa!';
 const CLASS_PROGRESSO_OCULTO = 'progresso-oculto';
 const CLASS_IMG_OCULTO = 'img-oculto';
-const TEXT_VAR_HEADER_LINHA1 = '%TEXT_VAR_HEADER_LINHA1%';
-const TEXT_VAR_HEADER_LINHA2 = '%TEXT_VAR_HEADER_LINHA2%';
-const TEXT_VAR_PREMIO_LINHA1 = '%TEXT_VAR_PREMIO_LINHA1%';
-const TEXT_VAR_PREMIO_LINHA2 = '%TEXT_VAR_PREMIO_LINHA2%';
-const TEXT_VAR_DATA_REALIZACAO = '%TEXT_VAR_DATA_REALIZACAO%';
-const TEXT_VAR_LOCAL_REALIZACAO = '%TEXT_VAR_LOCAL_REALIZACAO%';
-const TEXT_VAR_OBSERVACOES = '%TEXT_VAR_OBSERVACOES%';
+
+const TEXT_DEFAULT = {
+  var_header_linha1: '%VAR_HEADER_LINHA1%',
+  var_header_linha2: '%VAR_HEADER_LINHA2%',
+  var_premio_linha1: '%VAR_PREMIO_LINHA1%',
+  var_premio_linha2: '%VAR_PREMIO_LINHA2%',
+  var_data_realizacao: '%VAR_DATA_REALIZACAO%',
+  var_local_realizacao: '%VAR_LOCAL_REALIZACAO%',
+  var_observacoes: '%VAR_OBSERVACOES%'
+};
 
 /**
  * Variaveis template rifa
@@ -53,13 +58,13 @@ const botaoIncrementarFichas = document.querySelector<HTMLInputElement>('#botao-
 const botaoDecrementarFichas = document.querySelector<HTMLInputElement>('#botao-decrementar-fichas');
 
 const inputsTemplate = {
-  inputHeaderLinha1: document.querySelector<HTMLInputElement>('#input_var_header_linha1'),
-  inputHeaderLinha2: document.querySelector<HTMLInputElement>('#input_var_header_linha2'),
-  inputPremioLinha1: document.querySelector<HTMLInputElement>('#input_var_premio_linha1'),
-  inputPremioLinha2: document.querySelector<HTMLInputElement>('#input_var_premio_linha2'),
-  inputDataRealizacao: document.querySelector<HTMLInputElement>('#input_var_data_realizacao'),
-  inputLocalRealizacao: document.querySelector<HTMLInputElement>('#input_var_local_realizacao'),
-  inputObservacoes: document.querySelector<HTMLInputElement>('#input_var_observacoes')
+  var_header_linha1: document.querySelector<HTMLInputElement>('#input_var_header_linha1'),
+  var_header_linha2: document.querySelector<HTMLInputElement>('#input_var_header_linha2'),
+  var_premio_linha1: document.querySelector<HTMLInputElement>('#input_var_premio_linha1'),
+  var_premio_linha2: document.querySelector<HTMLInputElement>('#input_var_premio_linha2'),
+  var_data_realizacao: document.querySelector<HTMLInputElement>('#input_var_data_realizacao'),
+  var_local_realizacao: document.querySelector<HTMLInputElement>('#input_var_local_realizacao'),
+  var_observacoes: document.querySelector<HTMLInputElement>('#input_var_observacoes')
 };
 
 const iconeLoading = document.querySelector<HTMLImageElement>('#icone-loading');
@@ -182,6 +187,43 @@ const atualizarQuantidadePaginas = () => {
   textoTotalPaginasFichas.innerText = Math.ceil(valor / 5) + '';
 };
 
+/**
+ * Atualiza progresso
+ * @param progresso Novo valor de progresso para barra de progresso
+ */
+const atualizarBarraProgresso = (_progresso: number) => {
+  let progresso: number;
+  if (_progresso > 100) {
+    progresso = 100;
+  } else if (_progresso < 1) {
+    progresso = 1;
+  } else {
+    progresso = _progresso;
+  }
+
+  barraProgresso.style.width = progresso + '%';
+};
+
+/**
+ * Desabilita todos os inputs da página
+ */
+const desabilitarTodosInputs = () => {habilitarTodosInpupts
+  inputQuantidadeFichas.disabled = true;
+  Object.keys(inputsTemplate).forEach(input => {
+    inputsTemplate[input].disabled = true;
+  });
+};
+
+/**
+ * Habilita todos os inputs da página
+ */
+const habilitarTodosInpupts = () => {
+  inputQuantidadeFichas.disabled = false;
+  Object.keys(inputsTemplate).forEach(input => {
+    inputsTemplate[input].disabled = false;
+  });
+};
+
 // Ativação do evento
 inputQuantidadeFichas.onkeyup = () => {
   validarInputQuantidadeFicha();
@@ -198,21 +240,35 @@ botaoDecrementarFichas.onclick = decrementarNumFichas;
 // Fechar modal rifa
 botaoFecharModal.onclick = fecharModalRifaGerada;
 
-// Gerar Rifa
+// Entradas do template
+Object.keys(inputsTemplate).forEach(input => {
+  inputsTemplate[input].onkeyup = () => {
+    return variaveisTemplate[input].textContent = inputsTemplate[input].value === ''
+      ? TEXT_DEFAULT[input]
+      : inputsTemplate[input].value;
+  }
+});
+
+// Gerar Rifa -- TODO
 botaoGerarRifa.onclick = () => {
   console.log('[INFO] {BotaoGerarRifa} - Iniciando procedimento para gerar rifa');
   
   iniciarBarraProgesso();
   desabilitarBotaoGerarRifa();
+  desabilitarTodosInputs();
+
+  const documento = new PDFDocument();
+  documento.addPage();
 
   interval(500).pipe(
     take(10)
   ).subscribe((i) => {
-    barraProgresso.style.width = ((i + 1) * 10) + '%';
+    atualizarBarraProgresso((i + 1) * 10);
   }, err => {
     console.error('[ERROR] {BotaoGerarRifa} - Erro:', err)
   }, () => {
     habilitarBotaoGerarRifa();
+    habilitarTodosInpupts();
     finalizaBarraProgresso();
     abrirModalRifaGerada();
   });
