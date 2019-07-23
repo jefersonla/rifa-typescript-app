@@ -1,9 +1,9 @@
 import {interval} from 'rxjs';
 import {take} from 'rxjs/operators';
-import * as PdfPrinter from 'pdfmake';
-// import {PDFDocument} from 'pdfkit';
+// import * as PdfPrinter from 'pdfmake';
+import * as PDFDocument from 'pdfkit';
 
-declare const PDFDocument: any;
+// declare const PDFDocument: any;
 
 // Import stylesheets
 import './assets/style.css';
@@ -26,63 +26,63 @@ const TEXTO_BOTAO_DEFAULT = 'Clique aqui para gerar sua rifa!';
 const CLASS_PROGRESSO_OCULTO = 'progresso-oculto';
 const CLASS_IMG_OCULTO = 'img-oculto';
 
-const TEXT_DEFAULT = {
-  var_header_linha1: '%VAR_HEADER_LINHA1%',
-  var_header_linha2: '%VAR_HEADER_LINHA2%',
-  var_premio_linha1: '%VAR_PREMIO_LINHA1%',
-  var_premio_linha2: '%VAR_PREMIO_LINHA2%',
-  var_data_realizacao: '%VAR_DATA_REALIZACAO%',
-  var_local_realizacao: '%VAR_LOCAL_REALIZACAO%',
-  var_observacoes: '%VAR_OBSERVACOES%'
-};
+const TEXT_DEFAULT: Map<string, string> = new Map([
+  [ 'var_header_linha1', '%VAR_HEADER_LINHA1%' ],
+  [ 'var_header_linha2', '%VAR_HEADER_LINHA2%' ],
+  [ 'var_premio_linha1', '%VAR_PREMIO_LINHA1%' ],
+  [ 'var_premio_linha2', '%VAR_PREMIO_LINHA2%' ],
+  [ 'var_data_realizacao', '%VAR_DATA_REALIZACAO%' ],
+  [ 'var_local_realizacao', '%VAR_LOCAL_REALIZACAO%' ],
+  [ 'var_observacoes', '%VAR_OBSERVACOES%' ]
+]);
 
 /**
  * Variaveis template rifa
  */
-const variaveisTemplate = {
-  var_num1: document.querySelector<SVGTextElement>('#var_num1'),
-  var_num2: document.querySelector<SVGTextElement>('#var_num2'),
-  var_header_linha1: document.querySelector<SVGTextElement>('#var_header_linha1'),
-  var_header_linha2: document.querySelector<SVGTextElement>('#var_header_linha2'),
-  var_premio_linha1: document.querySelector<SVGTextElement>('#var_premio_linha1'),
-  var_premio_linha2: document.querySelector<SVGTextElement>('#var_premio_linha2'),
-  var_data_realizacao: document.querySelector<SVGTextElement>('#var_data_realizacao'),
-  var_local_realizacao: document.querySelector<SVGTextElement>('#var_local_realizacao'),
-  var_observacoes: document.querySelector<SVGTextElement>('#var_observacoes')
-};
+const variaveisTemplate: Map<string, SVGTextElement> = new Map([
+  [ 'var_num1', document.querySelector<SVGTextElement>('#var_num1') as SVGTextElement ],
+  [ 'var_num2', document.querySelector<SVGTextElement>('#var_num2') as SVGTextElement ],
+  [ 'var_header_linha1', document.querySelector<SVGTextElement>('#var_header_linha1') as SVGTextElement ],
+  [ 'var_header_linha2', document.querySelector<SVGTextElement>('#var_header_linha2') as SVGTextElement ],
+  [ 'var_premio_linha1', document.querySelector<SVGTextElement>('#var_premio_linha1') as SVGTextElement ],
+  [ 'var_premio_linha2', document.querySelector<SVGTextElement>('#var_premio_linha2') as SVGTextElement ],
+  [ 'var_data_realizacao', document.querySelector<SVGTextElement>('#var_data_realizacao') as SVGTextElement ],
+  [ 'var_local_realizacao', document.querySelector<SVGTextElement>('#var_local_realizacao') as SVGTextElement ],
+  [ 'var_observacoes', document.querySelector<SVGTextElement>('#var_observacoes') as SVGTextElement ]
+]);
 
 /**
- * ----------  Dom Footer ---------- 
+ * ----------  Elementos DOM ---------- 
  */
-const inputQuantidadeFichas = document.querySelector<HTMLInputElement>('#input-quantidade-fichas');
+const inputsTemplate: Map<string, HTMLInputElement> = new Map([
+  [ 'var_header_linha1', document.querySelector<HTMLInputElement>('#input_var_header_linha1') as HTMLInputElement ],
+  [ 'var_header_linha2', document.querySelector<HTMLInputElement>('#input_var_header_linha2') as HTMLInputElement ],
+  [ 'var_premio_linha1', document.querySelector<HTMLInputElement>('#input_var_premio_linha1') as HTMLInputElement ],
+  [ 'var_premio_linha2', document.querySelector<HTMLInputElement>('#input_var_premio_linha2') as HTMLInputElement ],
+  [ 'var_data_realizacao', document.querySelector<HTMLInputElement>('#input_var_data_realizacao') as HTMLInputElement ],
+  [ 'var_local_realizacao', document.querySelector<HTMLInputElement>('#input_var_local_realizacao') as HTMLInputElement ],
+  [ 'var_observacoes', document.querySelector<HTMLInputElement>('#input_var_observacoes') as HTMLInputElement ]
+]);
 
-const botaoIncrementarFichas = document.querySelector<HTMLInputElement>('#botao-incrementar-fichas');
-const botaoDecrementarFichas = document.querySelector<HTMLInputElement>('#botao-decrementar-fichas');
+const inputQuantidadeFichas = document.querySelector<HTMLInputElement>('#input-quantidade-fichas') as HTMLInputElement;
 
-const inputsTemplate = {
-  var_header_linha1: document.querySelector<HTMLInputElement>('#input_var_header_linha1'),
-  var_header_linha2: document.querySelector<HTMLInputElement>('#input_var_header_linha2'),
-  var_premio_linha1: document.querySelector<HTMLInputElement>('#input_var_premio_linha1'),
-  var_premio_linha2: document.querySelector<HTMLInputElement>('#input_var_premio_linha2'),
-  var_data_realizacao: document.querySelector<HTMLInputElement>('#input_var_data_realizacao'),
-  var_local_realizacao: document.querySelector<HTMLInputElement>('#input_var_local_realizacao'),
-  var_observacoes: document.querySelector<HTMLInputElement>('#input_var_observacoes')
-};
+const botaoIncrementarFichas = document.querySelector<HTMLInputElement>('#botao-incrementar-fichas') as HTMLInputElement;
+const botaoDecrementarFichas = document.querySelector<HTMLInputElement>('#botao-decrementar-fichas') as HTMLInputElement;
 
-const iconeLoading = document.querySelector<HTMLImageElement>('#icone-loading');
+const iconeLoading = document.querySelector<HTMLImageElement>('#icone-loading') as HTMLImageElement;
 
-const botaoBaixarRifa = document.querySelector<HTMLAnchorElement>('#botao-baixar-rifa');
+const botaoBaixarRifa = document.querySelector<HTMLAnchorElement>('#botao-baixar-rifa') as HTMLAnchorElement;
 
-const botaoGerarRifa = document.querySelector<HTMLButtonElement>('#botao-gerar-rifa');
-const botaoFecharModal = document.querySelector<HTMLButtonElement>('#botao-fechar-modal');
+const botaoGerarRifa = document.querySelector<HTMLButtonElement>('#botao-gerar-rifa') as HTMLButtonElement;
+const botaoFecharModal = document.querySelector<HTMLButtonElement>('#botao-fechar-modal') as HTMLButtonElement;
 
-const containerModal = document.querySelector<HTMLDivElement>('#container-modal');
-const containerProgresso = document.querySelector<HTMLDivElement>('#container-progresso');
+const containerModal = document.querySelector<HTMLDivElement>('#container-modal') as HTMLDivElement;
+const containerProgresso = document.querySelector<HTMLDivElement>('#container-progresso') as HTMLDivElement;
 
-const barraProgresso = document.querySelector<HTMLSpanElement>('#barra-progresso');
-const textoProgresso = document.querySelector<HTMLSpanElement>('#progresso-text-acessibilidade');
-const headerCardGerarRifa = document.querySelector<HTMLSpanElement>('#header-card-gerar-rifa');
-const textoTotalPaginasFichas = document.querySelector<HTMLSpanElement>('#total-paginas-geradas');
+const barraProgresso = document.querySelector<HTMLSpanElement>('#barra-progresso') as HTMLSpanElement;
+const textoProgresso = document.querySelector<HTMLSpanElement>('#progresso-text-acessibilidade') as HTMLSpanElement;
+const headerCardGerarRifa = document.querySelector<HTMLSpanElement>('#header-card-gerar-rifa') as HTMLSpanElement;
+const textoTotalPaginasFichas = document.querySelector<HTMLSpanElement>('#total-paginas-geradas') as HTMLSpanElement;
 
 /**
  * ------------ Eventos ------------ 
@@ -212,7 +212,7 @@ const atualizarBarraProgresso = (_progresso: number) => {
 const desabilitarTodosInputs = () => {habilitarTodosInpupts
   inputQuantidadeFichas.disabled = true;
   Object.keys(inputsTemplate).forEach(input => {
-    inputsTemplate[input].disabled = true;
+    (inputsTemplate.get(input) as HTMLInputElement).disabled = true;
   });
 };
 
@@ -222,7 +222,7 @@ const desabilitarTodosInputs = () => {habilitarTodosInpupts
 const habilitarTodosInpupts = () => {
   inputQuantidadeFichas.disabled = false;
   Object.keys(inputsTemplate).forEach(input => {
-    inputsTemplate[input].disabled = false;
+    (inputsTemplate.get(input) as HTMLInputElement).disabled = false;
   });
 };
 
@@ -244,10 +244,10 @@ botaoFecharModal.onclick = fecharModalRifaGerada;
 
 // Entradas do template
 Object.keys(inputsTemplate).forEach(input => {
-  inputsTemplate[input].onkeyup = () => {
-    return variaveisTemplate[input].textContent = inputsTemplate[input].value === ''
-      ? TEXT_DEFAULT[input]
-      : inputsTemplate[input].value;
+  (inputsTemplate.get(input) as HTMLInputElement).onkeyup = () => {
+    return (variaveisTemplate.get(input) as SVGTextElement).textContent = (inputsTemplate.get(input) as HTMLInputElement).value === ''
+      ? TEXT_DEFAULT.get(input) as string
+      : (inputsTemplate.get(input) as HTMLInputElement).value;
   }
 });
 
@@ -259,10 +259,12 @@ botaoGerarRifa.onclick = () => {
   desabilitarBotaoGerarRifa();
   desabilitarTodosInputs();
 
-  console.log('PDF', PdfPrinter);
-  window.doc = PdfPrinter;
-  const documento = PdfPrinter.createPdf();
+  // console.log('PDF', PdfPrinter);
+  // 
+  // const documento = PdfPrinter.createPdf();
+  const documento = new PDFDocument();
   documento.addPage();
+  // window['doc'] = PDFDocument;
   console.log(documento);
 
   interval(500).pipe(

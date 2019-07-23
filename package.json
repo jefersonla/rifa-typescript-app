@@ -27,10 +27,11 @@
     "src/"
   ],
   "dependencies": {
+    "@types/pdfkit": "^0.10.0",
+    "brfs": "2.0.2",
     "lodash": "4.17.15",
-    "pdfmake": "0.1.57",
-    "rxjs": "6.5.2",
-    "brfs": "2.0.2"
+    "pdfkit": "^0.10.0",
+    "rxjs": "6.5.2"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
