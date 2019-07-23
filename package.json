@@ -27,8 +27,8 @@
     "src/"
   ],
   "dependencies": {
-    "@types/pdfkit": "^0.10.0",
-    "brfs": "2.0.2",
+    "@parcel/fs": "^1.11.0",
+    "@types/pdfkit": "0.10.0",
     "lodash": "4.17.15",
     "pdfkit": "^0.10.0",
     "rxjs": "6.5.2"
