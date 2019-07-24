@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -37,7 +37,7 @@
             <!-- LogoPagina -->
             <div class="slds-media__figure">
               <span class="slds-icon_container slds-icon-standard-opportunity" title="opportunity">
-                <img src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/logo.svg" class="slds-icon slds-page-header__icon logo-pagina" aria-hidden="true">
+                <img alt="RifaGen logo" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/logo.svg" class="slds-icon slds-page-header__icon logo-pagina" aria-hidden="true">
                 <span class="slds-assistive-text">opportunity</span>
               </span>
             </div>
@@ -49,10 +49,8 @@
               <!-- TituloPagina -->
               <div class="slds-page-header__name">
                 <div class="slds-page-header__name-title">
-                  <h1>
-                    <span class="slds-page-header__title slds-truncate" title="Rohde Corp - 80,000 Widgets">
-                      Gerador de Rifas em PDF
-                    </span>
+                  <h1 class="slds-page-header__title slds-truncate" title="RifaGen - Gerador de rifas">
+                    Gerador de Rifas em PDF
                   </h1>
                 </div>
               </div>
@@ -78,17 +76,17 @@
   <main class="slds-col slds-size_1-of-1" style="text-align:center;">
     
     <!-- TemplateRifa -->
-    <svg class="rifa-template-image" xmlns:cc="http://creativecommons.org/ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" version="1.1">
+    <svg class="rifa-template-image" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" version="1.1">
       <style>
         .linhas {
-          stroke-width: 0.3px;
+          stroke-width: 0.019rem;
           stroke:#000;
           stroke-miterlimit: 4;
           stroke-dasharray: none;
         }
 
         .regioes {
-          stroke-width: 0.4px;
+          stroke-width: 0.025rem;
           stroke:#000;
           fill-opacity: 0;
           stroke-miterlimit: 4;
@@ -117,7 +115,7 @@
         }
 
         .campanha-destaque {
-          font: 3.5px sans-serif;
+          font: 4px sans-serif;
           font-weight: bold;
         }
 
@@ -129,16 +127,16 @@
       </style>
 
       <!-- RegioesPagina -->
-      <rect width="141.0" height="49.6" x="58.80" y="0.20" class="regioes" />
-      <rect width="58.60" height="49.6" x="0.200" y="0.20" class="regioes" />
-      <rect width="39.60" height="13.0" x="160.2" y="24.8" class="regioes" />
+      <rect width="141.0" height="49.6" x="58.80" y="0.20" class="regioes"></rect>
+      <rect width="58.60" height="49.6" x="0.200" y="0.20" class="regioes"></rect>
+      <rect width="39.60" height="13.0" x="160.2" y="24.8" class="regioes"></rect>
       <!-- ./RegioesPagina -->
 
       <!-- Linhas -->
-      <path d="M 30.0,27.85 H 57" class="linhas" />
-      <path d="M 19.0,13.85 H 57" class="linhas" />
-      <path d="M 12.0,20.85 H 57" class="linhas" />
-      <path d="M 2.00,34.85 H 57" class="linhas" />
+      <path d="M 30.0,27.85 H 57" class="linhas"></path>
+      <path d="M 19.0,13.85 H 57" class="linhas"></path>
+      <path d="M 12.0,20.85 H 57" class="linhas"></path>
+      <path d="M 2.00,34.85 H 57" class="linhas"></path>
       <!-- ./Linhas -->
 
       <!-- NumeroDireita -->
@@ -178,7 +176,7 @@
       <!-- ./DadosRifa -->
 
       <!-- TituloRifa -->
-      <text x="125.41113" y="15.915039" class="titulo" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8px;line-height:normal;font-family:sans-serif;font-size:6px">
+      <text x="125.41113" y="15.915039" class="titulo" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:normal;font-family:sans-serif;font-size:6px">
         Rifa
       </text>
       <!-- ./TituloRifa -->
@@ -187,7 +185,7 @@
       <text style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3px;line-height:normal;font-family:sans-serif;text-align:center;text-anchor:middle" class="header-rifa" x="128.94482" y="3.7924805" id="var_header_linha1">
         %VAR_HEADER_LINHA1%
       </text>
-      <text style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.5px;line-height:normal;font-family:sans-serif;text-align:center;text-anchor:middle" class="campanha-destaque" x="129.36328" y="8.1745605" id="var_header_linha2">
+      <text style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4px;line-height:normal;font-family:sans-serif;text-align:center;text-anchor:middle" class="campanha-destaque" x="129.36328" y="8.1745605" id="var_header_linha2">
         %VAR_HEADER_LINHA2%
       </text>
       <!-- ./HeaderRifa -->
@@ -246,7 +244,7 @@
           <!-- IconeHeader -->
           <div class="slds-media__figure">
             <span class="slds-icon_container slds-icon-standard-task" title="account" style="padding: 2px;">
-              <img class="slds-icon slds-icon_small" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/settings.svg">
+              <img alt="Icone configurações" class="slds-icon slds-icon_small" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/settings.svg">
               <span class="slds-assistive-text">account</span>
             </span>
           </div>
@@ -283,7 +281,7 @@
 
             <!-- DecrementarFichasBotao -->
             <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement" id="botao-decrementar-fichas" title="Decrementar contador">
-              <img class="slds-button__icon" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/ban.svg">
+              <img alt="Icone Decremento" class="slds-button__icon" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/ban.svg">
               <span class="slds-assistive-text">
                 Decrementar numero de fichas
               </span>
@@ -296,7 +294,7 @@
 
             <!-- IncrementarFichasBotao -->
             <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment" id="botao-incrementar-fichas" title="Incrementar contador">
-              <img class="slds-button__icon" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/new.svg">
+              <img alt="Icone Incremento" class="slds-button__icon" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/new.svg">
               <span class="slds-assistive-text">
                 Incrementar numero de fichas
               </span>
@@ -410,7 +408,7 @@
                 <h2 class="slds-truncate" title="Gerar Rifa!">
                   
                   <!-- LoadingImage -->
-                  <img class="img-oculto" id="icone-loading"  src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/loading.svg"/>
+                  <img alt="Icone Loading" class="img-oculto" id="icone-loading"  src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/loading.svg"/>
                   <!-- ./LoadingImage -->
 
                   <!-- ContainerMensagem -->
@@ -435,7 +433,7 @@
         <!-- Progresso -->
         <div id="container-progresso" class="progresso-oculto slds-card__body slds-card__body_inner">
           <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" role="progressbar">
-            <span class="slds-progress-bar__value" id="barra-progresso" style="width: 0%">
+            <span class="slds-progress-bar__value" id="barra-progresso" style="width: 0">
               <span class="slds-assistive-text" id="progresso-text-acessibilidade">Progresso: 0%</span>
             </span>
           </div>
@@ -444,7 +442,7 @@
         
         <!-- BotaoGerar -->
         <footer class="slds-card__footer" style="margin-top: 0;">
-          <button class="slds-button slds-button_brand botao-card" id="botao-gerar-rifa" href="javascript:void(0);">
+          <button class="slds-button slds-button_brand botao-card" id="botao-gerar-rifa">
             Clique aqui para gerar sua Rifa!
           </button>
         </footer>
@@ -478,9 +476,9 @@
 
         <!-- BodyModal -->
         <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-          <a id="botao-baixar-rifa" style="text-align: center; display: block;">
-            <img src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/pdf.svg" style="width:20%;">
-            <legend> Clique para baixar sua rifa! </legend>
+          <a rel="noopener noreferrer" target="_blank" id="botao-baixar-rifa" style="text-align: center; display: block;">
+            <img alt="Icone Download PDF" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/pdf.svg" style="width:20%;">
+            <span style="display: block;"> Clique para baixar sua rifa! </span>
           </a>
         </div>
         <!-- BodyModal -->
