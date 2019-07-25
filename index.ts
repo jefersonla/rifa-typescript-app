@@ -1,5 +1,9 @@
-import PDFDocument from 'pdfkit';
+import SVGtoPDF from 'svg-to-pdfkit';
+import PDFKitReference from 'pdfkit/js/reference';
 import stream from 'blob-stream';
+import * as _ from 'lodash';
+import './libs/dom-token-list.ext';
+PDFKitReference.
 
 // Importa stylesheets
 import './assets/style.css';
@@ -27,6 +31,8 @@ const TEXT_DEFAULT: Map<string, string> = new Map([
     ['var_local_realizacao', '%VAR_LOCAL_REALIZACAO%'],
     ['var_observacoes', '%VAR_OBSERVACOES%']
 ]);
+
+const NUM_FICHAS_PAGINA = 5;
 
 /**
  * Variaveis template rifa
@@ -63,7 +69,7 @@ const inputQuantidadeFichas = document.querySelector<HTMLInputElement>('#input-q
 const botaoIncrementarFichas = document.querySelector<HTMLInputElement>('#botao-incrementar-fichas');
 const botaoDecrementarFichas = document.querySelector<HTMLInputElement>('#botao-decrementar-fichas');
 
-const botaoBaixarRifa = document.querySelector<HTMLAnchorElement>('#botao-baixar-rifa') ;
+const botaoBaixarRifa = document.querySelector<HTMLAnchorElement>('#botao-baixar-rifa');
 
 const botaoGerarRifa = document.querySelector<HTMLButtonElement>('#botao-gerar-rifa');
 const botaoFecharModal = document.querySelector<HTMLButtonElement>('#botao-fechar-modal');
@@ -76,10 +82,13 @@ const textoProgresso = document.querySelector<HTMLSpanElement>('#progresso-text-
 const headerCardGerarRifa = document.querySelector<HTMLSpanElement>('#header-card-gerar-rifa');
 const textoTotalPaginasFichas = document.querySelector<HTMLSpanElement>('#total-paginas-geradas');
 
+const rifaTemplate = document.querySelector<SVGElement>('#rifa-template');
+
 /**
  * Stream de documento
  */
 let stream_documento: stream.IBlobStream;
+let documento = new PDFDocument();
 
 /**
  * ------------ Eventos ------------
@@ -179,11 +188,24 @@ const validarInputQuantidadeFicha = () => {
 };
 
 /**
+ * Obtem a quantidade de fichas
+ */
+const obtemQuantidadeFichas = () => {
+    return parseInt(inputQuantidadeFichas.value, 10);
+};
+
+/**
+ * Calcula o número de páginas de acordo com a quantidade de fichas
+ */
+const obtemQuantidadePaginas = () => {
+    return Math.ceil(obtemQuantidadeFichas() / 5);
+};
+
+/**
  * Atualizar quantidade de páginas
  */
 const atualizarQuantidadePaginas = () => {
-    const valor = parseInt(inputQuantidadeFichas.value, 10);
-    textoTotalPaginasFichas.innerText = Math.ceil(valor / 5) + '';
+    textoTotalPaginasFichas.innerText = obtemQuantidadePaginas() + '';
 };
 
 /**
@@ -205,23 +227,49 @@ const atualizarBarraProgresso = (_progresso: number) => {
 };
 
 /**
+ * Desabilita o input de quantidade de fichas
+ */
+const desabilitaInputQuantidadeFichas = () => {
+    inputQuantidadeFichas.disabled = true;
+};
+
+/**
+ * Habilitar o input de quantidade de fichas
+ */
+const habilitarInputQuantidadeFichas = () => {
+    inputQuantidadeFichas.disabled = false;
+};
+
+/**
+ * Desabilitar inputs de configuração
+ */
+const desabilitarInputsConfiguracao = () => {
+    _.entries(inputsTemplate)
+        .forEach(([, input]) => input.disabled = true);
+};
+
+/**
  * Desabilita todos os inputs da página
  */
 const desabilitarTodosInputs = () => {
-    inputQuantidadeFichas.disabled = true;
-    Array.from(inputsTemplate.entries()).forEach(([, input]) => {
-        input.disabled = true;
-    });
+    desabilitaInputQuantidadeFichas();
+    desabilitarInputsConfiguracao();
+};
+
+/**
+ * Habilta todos os inṕuts de configuração
+ */
+const habilitarInputsConfiguracao = () => {
+    _.entries(inputsTemplate)
+        .forEach(([, input]) => input.disabled = false);
 };
 
 /**
  * Habilita todos os inputs da página
  */
 const habilitarTodosInpupts = () => {
-    inputQuantidadeFichas.disabled = false;
-    Array.from(inputsTemplate.keys()).forEach(input => {
-        inputsTemplate.get(input).disabled = false;
-    });
+    habilitarInputQuantidadeFichas();
+    habilitarInputsConfiguracao();
 };
 
 /**
@@ -290,7 +338,7 @@ const adicionarEventoChangeInput = ([key_input, input]: [string, HTMLInputElemen
  * Ativa o evento de change nos inputs de configuração
  */
 const ativarEventoChangeInputsConfiguracao = () => {
-    Array.from(inputsTemplate.entries())
+    _.entries(inputsTemplate)
         .forEach(adicionarEventoChangeInput);
 };
 
@@ -330,9 +378,120 @@ const finalizaGerarPDF = () => {
 /**
  * Ativa os eventos de stream
  */
-const ativarEventosStreamDocumento = () => {
+const iniciaStreamDocumento = () => {
+    stream_documento = stream();
+    documento.pipe(stream_documento);
     stream_documento.on('error', erroAoGerarDocumento);
     stream_documento.on('finish', finalizaGerarPDF);
+};
+
+/**
+ * Obtem a quantidade de páginas da página informada
+ *
+ * @param num_pagina numero da pagina
+ */
+const rangeFichasPagina = (num_pagina: number): number[] => {
+    const quantidade_fichas = obtemQuantidadeFichas();
+    const numero_fichas_acessadas = (num_pagina * NUM_FICHAS_PAGINA);
+
+    if (numero_fichas_acessadas >= quantidade_fichas) {
+        return [];
+    }
+
+    const fichas_restantes = numero_fichas_acessadas + NUM_FICHAS_PAGINA <= quantidade_fichas
+        ? (numero_fichas_acessadas + NUM_FICHAS_PAGINA)
+        : (quantidade_fichas - numero_fichas_acessadas);
+
+    const primeira_ficha_nivel_atual = numero_fichas_acessadas;
+    const ultima_ficah_nivel_atual = numero_fichas_acessadas + fichas_restantes;
+
+    return _.range(primeira_ficha_nivel_atual, ultima_ficah_nivel_atual);
+};
+
+/**
+ * Obter titulo rifa
+ */
+const obterTituloRifa = (): string => {
+    return inputsTemplate.get('var_header_linha1').value.length > 0
+        ? inputsTemplate.get('var_header_linha1').value
+        : 'Rifa';
+};
+
+/**
+ * Cria um novo documento PDF
+ */
+const criaNovoDocumento = () => {
+    documento = new PDFDocument({
+        margins: {
+            top: 20,
+            bottom: 20,
+            left: 20,
+            right: 20
+        },
+        // size: [ 2480, 3508 ],
+        size: 'a4',
+        layout: 'portrait',
+        info: {
+            Author: 'Jeferson Lima',
+            Title: `Rifa gerada por RifaGen - ${obterTituloRifa()}`,
+            Creator: 'RifaGen',
+            Producer: 'RifaGen.com',
+            CreationDate: new Date(),
+            ModDate: new Date(),
+            Keywords: 'rifa, fichas'
+        },
+        autoFirstPage: false
+    }).fontSize(10);
+
+    iniciaStreamDocumento();
+};
+
+/**
+ * Adiciona a ficha a página
+ */
+const adicionaFichaPagina = (num_ficha: number, idx: number) => {
+    // TODO
+    console.log('NUM', num_ficha + 1, idx);
+    SVGtoPDF(documento, rifaTemplate, 30, 30);
+};
+
+/**
+ * Cadastra página
+ *
+ * @param quantidade_paginas
+ */
+const cadastraPagina = (quantidade_paginas: number) => {
+    const porcentagem_progresso = Math.ceil(100 / quantidade_paginas);
+
+    return (num_pagina: number) => {
+        atualizarBarraProgresso(porcentagem_progresso * num_pagina);
+
+        documento
+            .addPage()
+            .text(`Página ${num_pagina + 1}/${quantidade_paginas}`);
+
+        rangeFichasPagina(num_pagina)
+            .forEach(adicionaFichaPagina);
+    };
+};
+
+/**
+ * Finalizar documento
+ */
+const finalizarDocumento = () => {
+    documento.end();
+};
+
+/**
+ * Gera documento rifa
+ */
+const gerarDocumentoRifa = () => {
+    const quantidade_paginas = obtemQuantidadePaginas();
+
+    criaNovoDocumento();
+    _.range(quantidade_paginas)
+        .forEach(cadastraPagina(quantidade_paginas));
+    finalizarDocumento();
 };
 
 /**
@@ -344,17 +503,9 @@ const geraNovaRifa = () => {
     iniciarBarraProgesso();
     desabilitarBotaoGerarRifa();
     desabilitarTodosInputs();
+    gerarDocumentoRifa();
 
-    // Cria documento
-    const documento = new PDFDocument();
-    documento
-        .fontSize(10);
-    stream_documento = documento.pipe(stream());
-
-    documento.end();
-    atualizarBarraProgresso(50);
-
-    ativarEventosStreamDocumento();
+    console.log('[INFO] {BotaoGerarRifa} - Finalizado procedimento para gerar rifa');
 };
 
 /**
