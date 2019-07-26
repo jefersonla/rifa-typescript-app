@@ -1,13 +1,18 @@
+// @ts-ignore
 import SVGtoPDF from 'svg-to-pdfkit';
-import PDFKitReference from 'pdfkit/js/reference';
+import PDFDocument from 'pdfkit';
 import stream from 'blob-stream';
 import * as _ from 'lodash';
 import './libs/dom-token-list.ext';
-PDFKitReference.
 
 // Importa stylesheets
 import './assets/style.css';
 import './assets/styles/salesforce-lightning-design-system.min.css';
+
+/**
+ * ------------- Types -------------
+ */
+type PDFDocumentType = typeof PDFDocument;
 
 /**
  * ---------- Constantes -----------
@@ -35,9 +40,28 @@ const TEXT_DEFAULT: Map<string, string> = new Map([
 const NUM_FICHAS_PAGINA = 5;
 
 /**
+ * Templates
+ */
+const rifaTemplate = document.querySelector<SVGElement>('#rifa-template');
+const rifaTemplatePDF = rifaTemplate.cloneNode(true) as SVGElement;
+const numeroRifaTemplatePDF: [SVGTextElement, SVGTextElement] = [
+    rifaTemplatePDF.querySelector<SVGTextElement>('#var_num1'),
+    rifaTemplatePDF.querySelector<SVGTextElement>('#var_num2')
+];
+
+/**
+ * Converte string ID para entrada com query do template
+ *
+ * @param id_dom
+ */
+const converteIDParaEntradaMap = (id_dom: string): [string, SVGTextElement] => {
+    return [ id_dom, rifaTemplatePDF.querySelector<SVGTextElement>(`#${id_dom}`) ];
+};
+
+/**
  * Variaveis template rifa
  */
-const variaveisTemplate: Map<string, SVGTextElement> = new Map([
+const variaveisTemplate = new Map([
     ['var_num1', document.querySelector<SVGTextElement>('#var_num1')],
     ['var_num2', document.querySelector<SVGTextElement>('#var_num2')],
     ['var_header_linha1', document.querySelector<SVGTextElement>('#var_header_linha1')],
@@ -48,13 +72,16 @@ const variaveisTemplate: Map<string, SVGTextElement> = new Map([
     ['var_local_realizacao', document.querySelector<SVGTextElement>('#var_local_realizacao')],
     ['var_observacoes', document.querySelector<SVGTextElement>('#var_observacoes')]
 ]);
+const entriesVariaveisTemplatePDF = _.keys(variaveisTemplate)
+    .map<[string, SVGTextElement]>(converteIDParaEntradaMap);
+const variaveisTemplatePDF = new Map(entriesVariaveisTemplatePDF);
 
 /**
  * ----------  Elementos DOM ----------
  */
 const iconeLoading = document.querySelector<HTMLImageElement>('#icone-loading');
 
-const inputsTemplate: Map<string, HTMLInputElement> = new Map([
+const inputsTemplate = new Map([
     ['var_header_linha1', document.querySelector<HTMLInputElement>('#input_var_header_linha1')],
     ['var_header_linha2', document.querySelector<HTMLInputElement>('#input_var_header_linha2')],
     ['var_premio_linha1', document.querySelector<HTMLInputElement>('#input_var_premio_linha1')],
@@ -82,13 +109,11 @@ const textoProgresso = document.querySelector<HTMLSpanElement>('#progresso-text-
 const headerCardGerarRifa = document.querySelector<HTMLSpanElement>('#header-card-gerar-rifa');
 const textoTotalPaginasFichas = document.querySelector<HTMLSpanElement>('#total-paginas-geradas');
 
-const rifaTemplate = document.querySelector<SVGElement>('#rifa-template');
-
 /**
  * Stream de documento
  */
 let stream_documento: stream.IBlobStream;
-let documento = new PDFDocument();
+let documento: PDFDocumentType;
 
 /**
  * ------------ Eventos ------------
@@ -318,9 +343,11 @@ type callbackAtualizaTextoTemplateRifa = () => void;
  */
 const atualizarTextoTemplateRifa = (key_input: string, input: HTMLInputElement): callbackAtualizaTextoTemplateRifa => {
     return () => {
-        variaveisTemplate.get(key_input).textContent = input.value === ''
+        const textoInput = input.value === ''
             ? TEXT_DEFAULT.get(key_input)
             : input.value;
+        variaveisTemplate.get(key_input).textContent = textoInput;
+        variaveisTemplatePDF.get(key_input).textContent = textoInput;
     };
 };
 
@@ -398,14 +425,12 @@ const rangeFichasPagina = (num_pagina: number): number[] => {
         return [];
     }
 
-    const fichas_restantes = numero_fichas_acessadas + NUM_FICHAS_PAGINA <= quantidade_fichas
+    const primeira_ficha_nivel_atual = numero_fichas_acessadas;
+    const ultima_ficha_nivel_atual = numero_fichas_acessadas + NUM_FICHAS_PAGINA <= quantidade_fichas
         ? (numero_fichas_acessadas + NUM_FICHAS_PAGINA)
         : (quantidade_fichas - numero_fichas_acessadas);
 
-    const primeira_ficha_nivel_atual = numero_fichas_acessadas;
-    const ultima_ficah_nivel_atual = numero_fichas_acessadas + fichas_restantes;
-
-    return _.range(primeira_ficha_nivel_atual, ultima_ficah_nivel_atual);
+    return _.range(primeira_ficha_nivel_atual, ultima_ficha_nivel_atual);
 };
 
 /**
@@ -438,21 +463,33 @@ const criaNovoDocumento = () => {
             Producer: 'RifaGen.com',
             CreationDate: new Date(),
             ModDate: new Date(),
-            Keywords: 'rifa, fichas'
+            Keywords: 'rifa, fichas, sorteio'
         },
         autoFirstPage: false
-    }).fontSize(10);
+    });
+    documento.fontSize(10);
 
     iniciaStreamDocumento();
+};
+
+/**
+ *
+ * @param numero_rifa
+ */
+type callbackModifaNumeroRifaType = (numeroEL: SVGTextElement) => void;
+const modificaNumeroRifa = (numero_rifa: number): callbackModifaNumeroRifaType => {
+    return numeroEl => {
+        numeroEl.textContent = numero_rifa + '';
+    };
 };
 
 /**
  * Adiciona a ficha a página
  */
 const adicionaFichaPagina = (num_ficha: number, idx: number) => {
-    // TODO
-    console.log('NUM', num_ficha + 1, idx);
-    SVGtoPDF(documento, rifaTemplate, 30, 30);
+    numeroRifaTemplatePDF
+        .forEach(modificaNumeroRifa(num_ficha + 1));
+    SVGtoPDF(documento, rifaTemplatePDF, 0, (idx * 148) - 300);
 };
 
 /**

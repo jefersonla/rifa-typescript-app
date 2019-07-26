@@ -12,6 +12,7 @@
     "strictNullChecks": false,
     "strictFunctionTypes": true,
     "esModuleInterop": true,
+    "isolatedModules": false,
     "lib": [
       "es2017",
       "es6",
