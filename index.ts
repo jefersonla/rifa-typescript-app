@@ -49,31 +49,41 @@ const numeroRifaTemplatePDF: [SVGTextElement, SVGTextElement] = [
     rifaTemplatePDF.querySelector<SVGTextElement>('#var_num2')
 ];
 
+type callbackConverteIDParaEntradaMap = (id_dom: string) => [string, SVGTextElement];
+
 /**
  * Converte string ID para entrada com query do template
  *
- * @param id_dom
+ * @param domElement
  */
-const converteIDParaEntradaMap = (id_dom: string): [string, SVGTextElement] => {
-    return [ id_dom, rifaTemplatePDF.querySelector<SVGTextElement>(`#${id_dom}`) ];
+const obtemEspacoVariaveisTemplateById = (domElement: Element): callbackConverteIDParaEntradaMap => {
+    return (id_dom: string) => {
+        const domEntradaMap = domElement.querySelector<SVGTextElement>(`#${id_dom}`);
+        return [ id_dom, domEntradaMap ];
+    }
 };
+
+/**
+ * ID das variaveis do template
+ */
+const idVariaveisTemplate = [
+    'var_header_linha1',
+    'var_header_linha2',
+    'var_premio_linha1',
+    'var_premio_linha2',
+    'var_data_realizacao',
+    'var_local_realizacao',
+    'var_observacoes'
+];
 
 /**
  * Variaveis template rifa
  */
-const variaveisTemplate = new Map([
-    ['var_num1', document.querySelector<SVGTextElement>('#var_num1')],
-    ['var_num2', document.querySelector<SVGTextElement>('#var_num2')],
-    ['var_header_linha1', document.querySelector<SVGTextElement>('#var_header_linha1')],
-    ['var_header_linha2', document.querySelector<SVGTextElement>('#var_header_linha2')],
-    ['var_premio_linha1', document.querySelector<SVGTextElement>('#var_premio_linha1')],
-    ['var_premio_linha2', document.querySelector<SVGTextElement>('#var_premio_linha2')],
-    ['var_data_realizacao', document.querySelector<SVGTextElement>('#var_data_realizacao')],
-    ['var_local_realizacao', document.querySelector<SVGTextElement>('#var_local_realizacao')],
-    ['var_observacoes', document.querySelector<SVGTextElement>('#var_observacoes')]
-]);
-const entriesVariaveisTemplatePDF = _.keys(variaveisTemplate)
-    .map<[string, SVGTextElement]>(converteIDParaEntradaMap);
+const entriesVariaveisTemplate = idVariaveisTemplate
+    .map<[string, SVGTextElement]>(obtemEspacoVariaveisTemplateById(rifaTemplate));
+const entriesVariaveisTemplatePDF = idVariaveisTemplate
+    .map<[string, SVGTextElement]>(obtemEspacoVariaveisTemplateById(rifaTemplatePDF));
+const variaveisTemplate = new Map(entriesVariaveisTemplate);
 const variaveisTemplatePDF = new Map(entriesVariaveisTemplatePDF);
 
 /**
@@ -81,15 +91,30 @@ const variaveisTemplatePDF = new Map(entriesVariaveisTemplatePDF);
  */
 const iconeLoading = document.querySelector<HTMLImageElement>('#icone-loading');
 
-const inputsTemplate = new Map([
-    ['var_header_linha1', document.querySelector<HTMLInputElement>('#input_var_header_linha1')],
-    ['var_header_linha2', document.querySelector<HTMLInputElement>('#input_var_header_linha2')],
-    ['var_premio_linha1', document.querySelector<HTMLInputElement>('#input_var_premio_linha1')],
-    ['var_premio_linha2', document.querySelector<HTMLInputElement>('#input_var_premio_linha2')],
-    ['var_data_realizacao', document.querySelector<HTMLInputElement>('#input_var_data_realizacao')],
-    ['var_local_realizacao', document.querySelector<HTMLInputElement>('#input_var_local_realizacao')],
-    ['var_observacoes', document.querySelector<HTMLInputElement>('#input_var_observacoes')]
-]);
+/**
+ * Obtem inputs do template pelo ID
+ *
+ * @param idInput
+ */
+const obtemInputsTemplateByID = (idInput: string): [ string, HTMLInputElement ] => {
+    return [
+        idInput,
+        document.querySelector<HTMLInputElement>(`#input_${idInput}`)
+    ];
+};
+
+const idInputsTemplate = [
+    'var_header_linha1',
+    'var_header_linha2',
+    'var_premio_linha1',
+    'var_premio_linha2',
+    'var_data_realizacao',
+    'var_local_realizacao',
+    'var_observacoes'
+];
+const entriesInputTemplate = idInputsTemplate
+    .map<[ string, HTMLInputElement ]>(obtemInputsTemplateByID);
+const inputsTemplate = new Map(entriesInputTemplate);
 
 const inputQuantidadeFichas = document.querySelector<HTMLInputElement>('#input-quantidade-fichas');
 
@@ -343,11 +368,11 @@ type callbackAtualizaTextoTemplateRifa = () => void;
  */
 const atualizarTextoTemplateRifa = (key_input: string, input: HTMLInputElement): callbackAtualizaTextoTemplateRifa => {
     return () => {
-        const textoInput = input.value === ''
-            ? TEXT_DEFAULT.get(key_input)
-            : input.value;
-        variaveisTemplate.get(key_input).textContent = textoInput;
+        const textoInput = input.value;
         variaveisTemplatePDF.get(key_input).textContent = textoInput;
+        variaveisTemplate.get(key_input).textContent = textoInput === ''
+            ? TEXT_DEFAULT.get(key_input)
+            : textoInput;
     };
 };
 
@@ -428,7 +453,7 @@ const rangeFichasPagina = (num_pagina: number): number[] => {
     const primeira_ficha_nivel_atual = numero_fichas_acessadas;
     const ultima_ficha_nivel_atual = numero_fichas_acessadas + NUM_FICHAS_PAGINA <= quantidade_fichas
         ? (numero_fichas_acessadas + NUM_FICHAS_PAGINA)
-        : (quantidade_fichas - numero_fichas_acessadas);
+        : quantidade_fichas;
 
     return _.range(primeira_ficha_nivel_atual, ultima_ficha_nivel_atual);
 };
@@ -479,7 +504,7 @@ const criaNovoDocumento = () => {
 type callbackModifaNumeroRifaType = (numeroEL: SVGTextElement) => void;
 const modificaNumeroRifa = (numero_rifa: number): callbackModifaNumeroRifaType => {
     return numeroEl => {
-        numeroEl.textContent = numero_rifa + '';
+        numeroEl.textContent = _.padStart(numero_rifa + '', 3, '0');
     };
 };
 
@@ -489,7 +514,9 @@ const modificaNumeroRifa = (numero_rifa: number): callbackModifaNumeroRifaType =
 const adicionaFichaPagina = (num_ficha: number, idx: number) => {
     numeroRifaTemplatePDF
         .forEach(modificaNumeroRifa(num_ficha + 1));
-    SVGtoPDF(documento, rifaTemplatePDF, 0, (idx * 148) - 300);
+    SVGtoPDF(documento, rifaTemplatePDF, 20, (idx * 138) - 300, {
+        width: 555
+    });
 };
 
 /**
@@ -553,6 +580,23 @@ const ativarBotaoGerarRifa = () => {
 };
 
 /**
+ * Limpa o conteudo da variavel presente no template pdf
+ *
+ * @param elDom
+ */
+const limpaVariavelTemplatePDF = ([ , elDom]: [string, SVGTextElement]): void => {
+    elDom.textContent = '';
+};
+
+/**
+ * Limpa as variaveis do template PDF
+ */
+const limparVariaveisTemplatePDF = (): void => {
+    _.entries(variaveisTemplatePDF)
+        .forEach(limpaVariavelTemplatePDF);
+};
+
+/**
  * ------------ Main ------------
  */
 ativarBotoesIncrementoDecremento();
@@ -560,3 +604,4 @@ ativarEventoChangeQuantidadeFichas();
 ativarBotaoFecharModal();
 ativarEventoChangeInputsConfiguracao();
 ativarBotaoGerarRifa();
+limparVariaveisTemplatePDF();
