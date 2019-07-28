@@ -92,6 +92,26 @@ html, body {
   margin: 10px 20px 230px !important;
 }
 
+.area-config {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 .area-scroll {
   /* max-height: 400px; */
+}
+
+.botao-fork {
+  height: 70px;
+  width: 70px;
+  padding: 7px 10px !important;
+}
+
+.botao-fork{
+  text-align: center;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #888 !important;
+  opacity: 0.7; /* Firefox */
 }

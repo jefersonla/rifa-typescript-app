@@ -1,4 +1,3 @@
-// @ts-ignore
 import SVGtoPDF from 'svg-to-pdfkit';
 import PDFDocument from 'pdfkit';
 import stream from 'blob-stream';
@@ -6,8 +5,9 @@ import * as _ from 'lodash';
 import './libs/dom-token-list.ext';
 
 // Importa stylesheets
+import 'animate.css/animate.min.css';
 import './assets/style.css';
-import './assets/styles/salesforce-lightning-design-system.min.css';
+import '@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css'
 
 /**
  * ------------- Types -------------
@@ -28,13 +28,13 @@ const CLASS_PROGRESSO_OCULTO = 'progresso-oculto';
 const CLASS_IMG_OCULTO = 'img-oculto';
 
 const TEXT_DEFAULT: Map<string, string> = new Map([
-    ['var_header_linha1', '%VAR_HEADER_LINHA1%'],
-    ['var_header_linha2', '%VAR_HEADER_LINHA2%'],
-    ['var_premio_linha1', '%VAR_PREMIO_LINHA1%'],
-    ['var_premio_linha2', '%VAR_PREMIO_LINHA2%'],
-    ['var_data_realizacao', '%VAR_DATA_REALIZACAO%'],
-    ['var_local_realizacao', '%VAR_LOCAL_REALIZACAO%'],
-    ['var_observacoes', '%VAR_OBSERVACOES%']
+    ['var_header_linha1', '>> Cabeçalho Linha 1 <<'],
+    ['var_header_linha2', '>> Cabeçalho Linha 2 <<'],
+    ['var_premio_linha1', '>> Prêmio Linha 1 <<'],
+    ['var_premio_linha2', '>> Prêmio Linha 2 <<'],
+    ['var_data_realizacao', '>> Data Realização <<'],
+    ['var_local_realizacao', '>> Local Realização<<'],
+    ['var_observacoes', '>> Observações <<']
 ]);
 
 const NUM_FICHAS_PAGINA = 5;
@@ -49,16 +49,17 @@ const numeroRifaTemplatePDF: [SVGTextElement, SVGTextElement] = [
     rifaTemplatePDF.querySelector<SVGTextElement>('#var_num2')
 ];
 
-type callbackConverteIDParaEntradaMap = (id_dom: string) => [string, SVGTextElement];
+type callbackobtemEspacoVariaveisTemplateById = (id_dom: string) => [string, SVGTextElement];
 
 /**
  * Converte string ID para entrada com query do template
  *
  * @param domElement
  */
-const obtemEspacoVariaveisTemplateById = (domElement: Element): callbackConverteIDParaEntradaMap => {
+const obtemEspacoVariaveisTemplateById = (domElement: Element): callbackobtemEspacoVariaveisTemplateById => {
     return (id_dom: string) => {
         const domEntradaMap = domElement.querySelector<SVGTextElement>(`#${id_dom}`);
+        domEntradaMap.textContent = TEXT_DEFAULT.get(id_dom);
         return [ id_dom, domEntradaMap ];
     }
 };

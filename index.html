@@ -20,9 +20,6 @@
   <meta name="msapplication-TileColor" content="#ffc40d">
   <meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
-
-  <!-- Libs -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 </head>
 <body>
 <div class="slds-grid slds-wrap">
@@ -31,13 +28,15 @@
   <nav class="slds-col slds-size_1-of-1">
     <div class="slds-page-header">
       <div class="slds-page-header__row">
+
+        <!-- TituloPagina -->
         <div class="slds-page-header__col-title">
           <div class="slds-media">
 
             <!-- LogoPagina -->
             <div class="slds-media__figure">
               <span class="slds-icon_container slds-icon-standard-opportunity" title="opportunity">
-                <img alt="RifaGen logo" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/logo.svg" class="slds-icon slds-page-header__icon logo-pagina" aria-hidden="true">
+                <img alt="RifaGen logo" src="/assets/images/logo.svg" class="slds-icon slds-page-header__icon logo-pagina" aria-hidden="true">
                 <span class="slds-assistive-text">opportunity</span>
               </span>
             </div>
@@ -59,6 +58,7 @@
               <!-- DescricaoPagina -->
               <p class="slds-page-header__name-meta">
                 Gere sua rifa em PDF fácil e rápido. Cada página da rifa possuirá max. 5 cartelas. Tamanho da página A4.
+                Obs.: Não é necessário preencher todos os campos.
               </p>
               <!-- ./DescricaoPagina -->
 
@@ -67,6 +67,21 @@
 
           </div>
         </div>
+        <!-- ./TituloPagina -->
+
+        <!-- GitHubLink -->
+        <div class="slds-page-header__col-actions" style="padding-bottom: 0;">
+          <div class="slds-page-header__controls">
+            <div class="slds-page-header__control">
+              <a href="https://github.com/jefersonla/rifa-typescript-app" class="slds-button slds-button_neutral botao-fork">
+                <img alt="Icone configurações" class="slds-icon slds-icon_small" src="/assets/images/icons/octoicon.svg">
+                <span>GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- ./GitHubLink -->
+
       </div>
     </div>
   </nav>
@@ -234,7 +249,7 @@
   <!-- ./PrevisualizacaoCartela -->
 
   <!-- ConfiguraçãoRifa -->
-  <nav class="slds-col slds-size_1-of-1">
+  <nav class="area-config slds-col slds-size_1-of-1">
     <article class="slds-card configuracao-area">
 
       <!-- HeaderConfiguracao -->
@@ -244,7 +259,7 @@
           <!-- IconeHeader -->
           <div class="slds-media__figure">
             <span class="slds-icon_container slds-icon-standard-task" title="account" style="padding: 2px;">
-              <img alt="Icone configurações" class="slds-icon slds-icon_small" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/settings.svg">
+              <img alt="Icone configurações" class="slds-icon slds-icon_small" src="/assets/images/icons/settings.svg">
               <span class="slds-assistive-text">account</span>
             </span>
           </div>
@@ -281,7 +296,7 @@
 
             <!-- DecrementarFichasBotao -->
             <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_decrement" id="botao-decrementar-fichas" title="Decrementar contador">
-              <img alt="Icone Decremento" class="slds-button__icon" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/ban.svg">
+              <img alt="Icone Decremento" class="slds-button__icon" src="/assets/images/icons/ban.svg">
               <span class="slds-assistive-text">
                 Decrementar numero de fichas
               </span>
@@ -294,7 +309,7 @@
 
             <!-- IncrementarFichasBotao -->
             <button class="slds-button slds-button_icon slds-button_icon-small slds-input__button_increment" id="botao-incrementar-fichas" title="Incrementar contador">
-              <img alt="Icone Incremento" class="slds-button__icon" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/new.svg">
+              <img alt="Icone Incremento" class="slds-button__icon" src="/assets/images/icons/new.svg">
               <span class="slds-assistive-text">
                 Incrementar numero de fichas
               </span>
@@ -408,7 +423,7 @@
                 <h2 class="slds-truncate" title="Gerar Rifa!">
                   
                   <!-- LoadingImage -->
-                  <img alt="Icone Loading" class="img-oculto" id="icone-loading"  src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/loading.svg"/>
+                  <img alt="Icone Loading" class="img-oculto" id="icone-loading"  src="/assets/images/icons/loading.svg"/>
                   <!-- ./LoadingImage -->
 
                   <!-- ContainerMensagem -->
@@ -477,7 +492,7 @@
         <!-- BodyModal -->
         <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
           <a rel="noopener noreferrer" target="_blank" id="botao-baixar-rifa" style="text-align: center; display: block;">
-            <img alt="Icone Download PDF" src="https://cdn.jsdelivr.net/gh/jefersonla/rifa-typescript-app@master/assets/images/icons/pdf.svg" style="width:20%;">
+            <img alt="Icone Download PDF" src="/assets/images/icons/pdf.svg" style="width:20%;">
             <span style="display: block;"> Clique para baixar sua rifa! </span>
           </a>
         </div>

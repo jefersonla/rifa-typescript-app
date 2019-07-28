@@ -2,37 +2,42 @@
 
 [Edit on StackBlitz ⚡️](https://stackblitz.com/edit/rifa-app)
 
-## Introduction
+## Introdução
 
-A minimum TypeScript app with [Parcel Bundler](https://parceljs.org/).
+Projeto de aplicação Web para manipulação de PDF utilizando apenas bibliotecas
+client side ( [PDFKit](http://pdfkit.org),
+[SVGToPDFKit](https://github.com/alafr/SVG-to-PDFKit) ) utilizando a linguagem
+[Typescript](https://www.typescriptlang.org/) e o bundler [Parcel](https://parceljs.org/).
 
 ## Source code
 
-- [index.html](./index.html)
-- [index.ts](./index.ts)
-- [style.css](./assets/style.css)
+- [index.html](./index.html) - Única view
+- [index.ts](./index.ts) - Todo o código fonte
+- [assets/style.css](./assets/style.css) - Estilos
+- [libs/dom-token-list.ext.ts](./libs/dom-token-list.ext.ts) - Extensão para interface global
+- [libs/@types/svg-to-pdfkit/index.d.ts](./libs/@types/svg-to-pdfkit/index.d.ts) - Tipos para a biblioteca SVGToPDFKit
+- [package.json](./package.json) - Ponto de partida do projeto
+- [tsconfig.json](./tsconfig.json) - Configurações do Typescript
 
-For more details, see [src/](./index.ts).
+## Uso
 
-## Usage
-
-### Installation
+### Instalação
 
 ```sh
     npm install
 ```
 
-### Development
+### Desenvolvimento
 
-Launch development server.
+Iniciar servidor de desenvolvimento.
 
 ```sh
     npm start
 ```
 
-### Build
+### Compilar
 
-Compile TypeScript app and copy index.html to the `dist` folder.
+Compila e copia o index.html para pasta de distribuição `dist`.
 
 ```sh
     npm run build
@@ -40,27 +45,29 @@ Compile TypeScript app and copy index.html to the `dist` folder.
 
 ### Deploy
 
-Deploy `dist` folder to GitHub Pages.
+Faz deploy da pasta `dist` para o GitHub Pages.
 
 ```sh
     npm run deploy
 ```
 
-You can see the result in <https://jefersonla.github.io/rifa-typescript-app/>.
+Você pode ver o resultado desse projeto em  <https://jefersonla.github.io/rifa-typescript-app/>.
 
 ## Contributing
 
-Pull requests and stars are always welcome.
+Pull requests e stars são sempre bem vindas :)
 
-For bugs and feature requests, [please create an issue](https://github.com/jefersonla/rifa-typescript-app/issues).
+Para bugs e feature requests, [por favor crie uma issue](https://github.com/jefersonla/rifa-typescript-app/issues).
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+Para contribuir siga os passos abaixo:
 
-## Author
+1. Faça um fork!
+2. Crie sua propria branch: `git checkout -b minha-nova-feature`
+3. Commit suas modificações: `git commit -am 'Adicionado algo novo'`
+4. Faça push de sua branch: `git push origin minha-nova-feature`
+5. Crie uma pull request :D
+
+## Autor
 
 - [@jefersonla](https://github.com/jefersonla)
 
